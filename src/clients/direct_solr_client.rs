@@ -91,10 +91,7 @@ fn split_url(url: &str) -> SolrResult<(String, u16, String)> {
         return Err(SolrError::BadHostError);
     }
     let host = url_details.host_str().unwrap().to_string();
-    let port = match url_details.port() {
-        Some(p) => p,
-        None => 80,
-    };
+    let port = url_details.port().unwrap_or(80);
     let context = url_details.path().to_string();
 
     Ok((host, port, context))

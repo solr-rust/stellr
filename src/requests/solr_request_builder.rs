@@ -87,7 +87,7 @@ impl SolrRequestBuilder for RequestBuilder {
     /// possible content errors
     fn payload(self, serializable_payload: &impl Serialize) -> SolrResult<RequestBuilder> {
         let json_payload = serde_json::to_string(serializable_payload)?;
-        if (&json_payload).starts_with("[") {
+        if (&json_payload).starts_with('[') {
             Ok(self.body(json_payload))
         } else {
             Err(SolrError::PayloadNotAJsonArrayError)
