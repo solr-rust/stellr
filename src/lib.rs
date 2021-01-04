@@ -157,6 +157,6 @@ pub use requests::{SolrRequest, SolrRequestBuilder};
 mod clients;
 mod config;
 mod errors;
-mod requests;
 pub mod prelude;
+mod requests;
 pub mod response_types;

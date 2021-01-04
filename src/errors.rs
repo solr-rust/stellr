@@ -43,7 +43,9 @@ impl std::fmt::Display for SolrError {
             SolrError::UnimplementedMethodError => write!(f, "Method Unimplemented"),
             SolrError::HTTPError(ref error) => error.fmt(f),
             SolrError::BadHostError => write!(f, "Could not find a hostname for this client"),
-            SolrError::PayloadNotAJsonArrayError => write!(f, "Payload did not deserialize into a JSON array"),
+            SolrError::PayloadNotAJsonArrayError => {
+                write!(f, "Payload did not deserialize into a JSON array")
+            }
             SolrError::HostParseError(ref error) => error.fmt(f),
             SolrError::ResponseParseError(ref error) => error.fmt(f),
             SolrError::ZookeeperError(ref error) => error.fmt(f),

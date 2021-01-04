@@ -1,6 +1,6 @@
+use crate::{SolrError, SolrResult};
 use reqwest::header::{HeaderMap, CONTENT_TYPE};
 use serde::Serialize;
-use crate::{SolrResult, SolrError};
 
 #[cfg(not(feature = "blocking"))]
 use reqwest::RequestBuilder;

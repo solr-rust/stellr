@@ -1,10 +1,10 @@
+use serde::Serialize;
 use serde_json::Value;
 use std::panic;
 use stellr::prelude::*;
 use stellr::response_types::{SolrSelectType, SolrUpdateType};
 use stellr::{DirectSolrClient, ZkSolrClient};
 use tokio::runtime::Runtime;
-use serde::Serialize;
 
 use super::it::SolrContainer;
 
@@ -85,12 +85,16 @@ fn structured_insertion_test() {
     }
 
     let result = panic::catch_unwind(|| {
-        let my_data = vec!(MyData {id: String::from("random-extra-value"), important_number: 42},);
+        let my_data = vec![MyData {
+            id: String::from("random-extra-value"),
+            important_number: 42,
+        }];
         let solr_client = DirectSolrClient::new("http://localhost:8983/solr").unwrap();
         let solr_request = solr_client
             .update("films")
             .expect("update-client generation failed")
-            .payload(&my_data).unwrap()
+            .payload(&my_data)
+            .unwrap()
             .commit();
 
         let mut rt = Runtime::new().unwrap();

@@ -4,8 +4,8 @@ use rand::seq::SliceRandom;
 use rand::thread_rng;
 use std::fmt;
 use std::hash::{Hash, Hasher};
-use std::time::Duration;
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 use zookeeper::{WatchedEvent, Watcher, ZkResult, ZooKeeper};
 
 use super::cloud_methods::SolrCloudMethods;
@@ -139,7 +139,9 @@ impl Default for ZkSolrClient {
         ZkSolrClient {
             zk_quorum: String::from(zk_quorum_str),
             zk_chroot: String::from(zk_chroot_str),
-            zk_connection: Arc::new(Mutex::new(zk_connection(zk_quorum_str, zk_chroot_str).unwrap())),
+            zk_connection: Arc::new(Mutex::new(
+                zk_connection(zk_quorum_str, zk_chroot_str).unwrap(),
+            )),
             request_config: SolrClientConfig::new(),
         }
     }
@@ -155,14 +157,13 @@ impl fmt::Debug for ZkSolrClient {
     }
 }
 
-impl Eq for ZkSolrClient {
-}
+impl Eq for ZkSolrClient {}
 
 impl PartialEq for ZkSolrClient {
     fn eq(&self, other: &Self) -> bool {
-        self.zk_quorum == other.zk_quorum &&
-            self.zk_chroot == other.zk_chroot &&
-            self.request_config == other.request_config
+        self.zk_quorum == other.zk_quorum
+            && self.zk_chroot == other.zk_chroot
+            && self.request_config == other.request_config
     }
 }
 
@@ -176,6 +177,10 @@ impl Hash for ZkSolrClient {
 
 impl fmt::Display for ZkSolrClient {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "ZkSolrClient({})", full_zk_path(&self.zk_quorum, &self.zk_chroot))
+        write!(
+            f,
+            "ZkSolrClient({})",
+            full_zk_path(&self.zk_quorum, &self.zk_chroot)
+        )
     }
 }
