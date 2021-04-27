@@ -5,32 +5,10 @@
 //! As the SolrResponseHeader is frequently reused, this is split out into it's own struct, and
 //! composed into other types (eg. in SolrSelectType and SolrUpdateType).
 
+use super::SolrResponseHeader;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use std::fmt;
 use std::fmt::{Debug, Display};
-
-//
-// Generic/Common Structs
-//
-/// Struct to match the standard solr responseHeader
-///
-/// This is typically used as part of SolrRequest::call<T>() as part of a more complex response
-/// type.
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct SolrResponseHeader {
-    pub status: u32,
-    pub QTime: u32,
-    pub params: Option<HashMap<String, String>>,
-    pub rf: Option<u32>,
-    pub zkConnected: Option<bool>,
-}
-
-impl fmt::Display for SolrResponseHeader {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:#?}", self)
-    }
-}
 
 /// Struct to match the standard solr select body
 ///
@@ -78,32 +56,5 @@ where
             "responseHeader: {}, response: {}, debug: {:?}",
             self.responseHeader, self.response, self.debug
         )
-    }
-}
-
-/// Standard structure for an update response
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct SolrUpdateType {
-    pub responseHeader: SolrResponseHeader,
-    pub debug: Option<String>,
-}
-
-impl fmt::Display for SolrUpdateType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:#?}", self)
-    }
-}
-
-/// Standard structure for a call to /admin/collections?action=LIST
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct SolrListCollectionsType {
-    pub responseHeader: SolrResponseHeader,
-    pub collections: Vec<String>,
-    pub debug: Option<String>,
-}
-
-impl fmt::Display for SolrListCollectionsType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:#?}", self)
     }
 }
