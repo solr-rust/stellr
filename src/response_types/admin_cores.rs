@@ -70,7 +70,8 @@ pub struct SolrAdminCoresIndexInfo {
 #[serde(rename_all = "camelCase")]
 pub struct SolrAdminCoresUserData {
     commit_command_ver: String,
-    commit_time_mSec: String,
+    #[serde(rename = "commitTimeMSec")]
+    commit_time_msec: String,
 }
 
 impl fmt::Display for SolrAdminCoresType {
@@ -94,6 +95,10 @@ mod test {
         assert_eq!(
             result_struct.status["techproducts_shard2_replica_n6"].index.segment_count,
             1,
+        );
+        assert_eq!(
+            result_struct.status["techproducts_shard2_replica_n6"].index.user_data.commit_time_msec,
+            "1611511283890",
         );
     }
 }
